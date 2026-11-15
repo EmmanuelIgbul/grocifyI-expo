@@ -1,4 +1,3 @@
-
 {
   "expo": {
     "name": "GROCIFY",
@@ -36,7 +35,8 @@
           "imageWidth": 76
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-web-browser"
     ],
     "extra": {
       "EXPO_PUBLIC_CLERK_GOOGLE_WEB_CLIENT_ID": "66617311357-dlrs439r6ct6588kge93ls6evtm8tc5h.apps.googleusercontent.com",
