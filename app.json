@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "GROCIFY",
@@ -17,14 +18,16 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.GROCIFY"
     },
     "web": {
       "output": "server",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
+      "@clerk/expo",
+      "@clerk/expo-native-components",
       [
         "expo-splash-screen",
         {
@@ -32,8 +35,13 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
+    "extra": {
+      "EXPO_PUBLIC_CLERK_GOOGLE_WEB_CLIENT_ID": "66617311357-dlrs439r6ct6588kge93ls6evtm8tc5h.apps.googleusercontent.com",
+      "EXPO_PUBLIC_CLERK_GOOGLE_ANDROID_CLIENT_ID": "66617311357-ritujc6ckoqv334h55kecgtd0u7obiji.apps.googleusercontent.com"
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
