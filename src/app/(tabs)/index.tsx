@@ -1,73 +1,63 @@
+import PendingItemCard from "@/app/components/list/PendingItemCard";
+import { useGroceryStore } from "@/store/grocery-store";
+import { FlatList, Text, View } from "react-native";
 
-import { useAuth, useUser } from "@clerk/expo";
-import { UserButton } from "@clerk/expo/native-components";
-import { useRouter } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import CompletedItems from "@/app/components/list/CompletedItems";
+import ListHeroCard from "@/app/components/list/ListHeroCard";
+import TabScreenBackground from "@/app/components/TabScreenBackground";
 
-export default function HomeIndex() {
-  const { signOut } = useAuth();
-  const { user } = useUser();
-  const router = useRouter();
+export default function ListScreen() {
+  const { items } = useGroceryStore();
 
-  const handleSignOut = async () => {
-    await signOut();
-    router.replace("/(auth)/sign-in");
-  };
+  const pendingItems = items.filter((item) => !item.purchased);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>Grocify</Text>
-          <Text style={styles.message}>
-            Welcome, {user?.firstName || "User"}!
-          </Text>
+    <FlatList
+      className="flex-1 bg-background "
+      data={pendingItems}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <PendingItemCard item={item} />}
+      contentContainerStyle={{ padding: 20, gap: 14 }}
+      contentInsetAdjustmentBehavior="automatic"
+      ListHeaderComponent={
+        <View style={{ gap: 14, paddingTop: 20 }}>
+          <TabScreenBackground />
+          <ListHeroCard />
+          <View className="flex-row items-center justify-between px-1">
+            <Text className="text-sm font-semibold uppercase tracking-[1px] text-muted-foreground">
+              Shopping items
+            </Text>
+            <Text className="text-sm text-muted-foreground">{pendingItems.length} active</Text>
+          </View>
         </View>
-
-        <UserButton />
-      </View>
-
-      <Pressable style={styles.button} onPress={handleSignOut}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </Pressable>
-    </View>
+      }
+      ListFooterComponent={<CompletedItems />}
+    />
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-  },
-  header: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "700",
-    color: "#0a7ea4",
-  },
-  message: {
-    marginTop: 8,
-    fontSize: 16,
-    color: "#4b5563",
-  },
-  button: {
-    marginTop: 24,
-    backgroundColor: "#0a7ea4",
-    paddingVertical: 12,
-    paddingHorizontal: 28,
-    borderRadius: 8,
-    alignSelf: "flex-start",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-});
+// FIRST VERSION WITH ITEMS.MAP
+/*
+<ScrollView
+      className="flex-1 bg-background py-4"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ padding: 20, gap: 14 }}
+    >
+      <TabScreenBackground />
+
+      <ListHeroCard />
+
+      <View className="flex-row items-center justify-between px-1">
+        <Text className="text-sm font-semibold uppercase tracking-[1px] text-muted-foreground">
+          Shopping items
+        </Text>
+        <Text className="text-sm text-muted-foreground">{pendingItems.length} active</Text>
+      </View>
+
+      {pendingItems.map((item) => (
+        <PendingItemCard key={item.id} item={item} />
+      ))}
+
+      <CompletedItems />
+    </ScrollView>
+*/
